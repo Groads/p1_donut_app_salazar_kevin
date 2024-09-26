@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../utils/my_tab.dart';
+import 'package:p1_donut_app_salazar_kevin/utils/my_tab.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
