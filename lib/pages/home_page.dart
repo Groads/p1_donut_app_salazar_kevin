@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:p1_donut_app_salazar_kevin/utils/my_tab.dart';
+import '../utils/my_tab.dart';
+
 import '../tab/donut_tab.dart';
 import '../tab/burger_tab.dart';
 import '../tab/pancake_tab.dart';
@@ -14,7 +15,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  
   List<Widget> myTabs = [
     const MyTab(iconPath: "lib/icons/donut.png", iconname: "Donuts"),
     const MyTab(iconPath: "lib/icons/burger.png", iconname: "Burger"),
@@ -23,13 +23,43 @@ class _HomePageState extends State<HomePage> {
     const MyTab(iconPath: "lib/icons/pizza.png", iconname: "Pizza"),
   ];
 
+  // Estado del carrito
+  Map<String, int> cartItems = {};
+  double totalAmount = 0;
+
+  // Añadir artículo al carrito
+  void addToCart(String itemName, double itemPrice) {
+    setState(() {
+      if (cartItems.containsKey(itemName)) {
+        cartItems[itemName] = cartItems[itemName]! + 1;
+      } else {
+        cartItems[itemName] = 1;
+      }
+      totalAmount += itemPrice;
+    });
+  }
+
+  // Eliminar artículo del carrito
+  void removeFromCart(String itemName, double itemPrice) {
+    setState(() {
+      if (cartItems.containsKey(itemName)) {
+        if (cartItems[itemName] == 1) {
+          cartItems.remove(itemName);
+        } else {
+          cartItems[itemName] = cartItems[itemName]! - 1;
+        }
+        totalAmount -= itemPrice;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: myTabs.length,
       child: Scaffold(
         appBar: AppBar(
-          toolbarHeight: 60, // Reducir la altura del AppBar para dar más espacio a las pestañas
+          toolbarHeight: 60,
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: Padding(
@@ -45,7 +75,6 @@ class _HomePageState extends State<HomePage> {
         ),
         body: Column(
           children: [
-            // Texto "I want to Eat"
             const Padding(
               padding: EdgeInsets.all(16.0),
               child: Row(
@@ -54,36 +83,43 @@ class _HomePageState extends State<HomePage> {
                   Text(
                     "Eat",
                     style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.underline),
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    ),
                   ),
                 ],
               ),
             ),
-            // Tab Bar
             Center(
               child: TabBar(
                 tabs: myTabs,
-                isScrollable: true, // Permite que las pestañas se puedan desplazar si es necesario
-                indicatorColor: Colors.pink, // Color del indicador de la pestaña seleccionada
+                isScrollable: true,
+                indicatorColor: Colors.pink,
               ),
             ),
-            // Tab Bar view
             Expanded(
               child: TabBarView(
                 children: [
-                  DonutTab(),       // Contenido de la pestaña "Donuts"
-                  const BurgerTab(), // Contenido de la pestaña "Burger"
-                  const SmoothieTab(), // Contenido de la pestaña "Smoothie"
-                  const PanCakeTab(), // Contenido de la pestaña "Pancake"
-                  const PizzaTab(),  // Contenido de la pestaña "Pizza"
+                  DonutTab(addToCart: addToCart, removeFromCart: removeFromCart),
+                  BurgerTab(addToCart: addToCart, removeFromCart: removeFromCart),
+                  const SmoothieTab(),
+                  const PanCakeTab(),
+                  const PizzaTab(),
                 ],
               ),
             ),
+            // Usar CartBar
+            CartBar(
+              itemCount: cartItems.values.fold(0, (a, b) => a + b),
+              totalAmount: totalAmount,
+              onViewCartPressed: () {
+                // Acción al presionar "View Cart"
+              },
+            ),
           ],
         ),
-      ),
-    );
-  }
+     ),
+);
+}
 }
