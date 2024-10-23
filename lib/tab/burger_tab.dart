@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import '../utils/burger_tile.dart';
+import 'package:p1_donut_app_salazar_kevin/utils/burger_tile.dart';
 
 class BurgerTab extends StatelessWidget {
-  final List donutsOnSale = [
-    ["Ice Cream", "36", Colors.blue, "lib/images/icecream_donut.png"],
-    ["Strawberry", "45", Colors.red, "lib/images/strawberry_donut.png"],
-    ["Grape Ape", "84", Colors.purple, "lib/images/grape_donut.png"],
-    ["Choco", "95", Colors.brown, "lib/images/chocolate_donut.png"],
-    ["Caramel Delight", "55", Colors.orange, "lib/images/caramel_donut.png"],
-    ["Mint Chocolate", "67", Colors.green, "lib/images/mint_donut.png"],
-    ["Raspberry", "78", Colors.pink, "lib/images/raspberry_donut.png"],
-    ["Peanut Butter", "88", Colors.amber, "lib/images/peanut_donut.png"],
+  final List burgersOnSale = [
+    ["HamburguesaConChorizo", "60", Colors.blue, "lib/images/HamburguesaConChorizo.png"],
+    ["HamburguesaConQueso", "30", Colors.red, "lib/images/HamburguesaConQueso.png"],
+    ["HamburguesaConTocino", "40", Colors.purple, "lib/images/HamburguesaConTocino.png"],
+    ["HamburguesaDePollo", "55", Colors.brown, "lib/images/HamburguesaDePollo.png"],
+    ["HamburguesaDoble", "50", Colors.orange, "lib/images/HamburguesaDoble.png"],
+    ["HamburguesaHawaiana", "45", Colors.green, "lib/images/HamburguesaHawaiana.png"],
+    ["HamburguesaTriple", "70", Colors.pink, "lib/images/HamburguesaTriple.png"],
+    ["HamburguesaVegetariana", "80", Colors.amber, "lib/images/HamburguesaVegetariana.png"],
   ];
 
   final Function(String, double) addToCart;
   final Function(String, double) removeFromCart;
-
+      
     BurgerTab({
     super.key,
     required this.addToCart,
@@ -25,7 +25,7 @@ class BurgerTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      itemCount: donutsOnSale.length,
+      itemCount: burgersOnSale.length,
       padding: const EdgeInsets.all(12),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2, childAspectRatio: 1 / 1.6),
@@ -35,15 +35,15 @@ class BurgerTab extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 // Añadir al carrito al hacer tap
-                String name = donutsOnSale[index][0];
-                double price = double.parse(donutsOnSale[index][1]);
+                String name = burgersOnSale[index][0];
+                double price = double.parse(burgersOnSale[index][1]);
                 addToCart(name, price);
               },
               child: BurgerTile(
-                BurgerFlavor: donutsOnSale[index][0],
-                BurgerPrice: donutsOnSale[index][1],
-                BurgerColor: donutsOnSale[index][2],
-                BurgerImage: donutsOnSale[index][3],
+                BurgerFlavor: burgersOnSale[index][0],
+                BurgerPrice: burgersOnSale[index][1],
+                BurgerColor: burgersOnSale[index][2],
+                BurgerImage: burgersOnSale[index][3],
               ),
             ),
             // Botones para añadir y eliminar del carrito
@@ -53,8 +53,8 @@ class BurgerTab extends StatelessWidget {
                 // Botón de eliminar
                 GestureDetector(
                   onTap: () {
-                    String name = donutsOnSale[index][0];
-                    double price = double.parse(donutsOnSale[index][1]);
+                    String name = burgersOnSale[index][0];
+                    double price = double.parse(burgersOnSale[index][1]);
                     removeFromCart(name, price);
                   },
                   child: Container(
@@ -74,8 +74,8 @@ class BurgerTab extends StatelessWidget {
                 // Botón de añadir
                 GestureDetector(
                   onTap: () {
-                    String name = donutsOnSale[index][0];
-                    double price = double.parse(donutsOnSale[index][1]);
+                    String name = burgersOnSale[index][0];
+                    double price = double.parse(burgersOnSale[index][1]);
                     addToCart(name, price);
                   },
                   child: Container(
